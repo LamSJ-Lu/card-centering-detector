@@ -4,7 +4,6 @@ on:
   push:
     branches: [main, master]
   workflow_dispatch:
-    # Allow manual trigger from GitHub Actions UI
 
 jobs:
   build-macos:
@@ -22,22 +21,55 @@ jobs:
       - name: Install dependencies
         run: pip install pyinstaller opencv-python numpy pillow pyside6
 
-      - name: Build .app bundle
+      - name: Build with PyInstaller (onedir, same as Windows)
         run: |
-          python -m PyInstaller --clean --log-level INFO card_centering.spec
-          echo "PyInstaller exit code: $?"
+          python -m PyInstaller --onedir \
+            --windowed \
+            --name "TCG卡片居中度检测" \
+            --add-data "src/card_centering:card_centering" \
+            --hidden-import cv2 \
+            --hidden-import numpy \
+            --hidden-import PIL \
+            --hidden-import shiboken6 \
+            --hidden-import PySide6.QtCore \
+            --hidden-import PySide6.QtGui \
+            --hidden-import PySide6.QtWidgets \
+            --hidden-import PySide6.QtNetwork \
+            --hidden-import cv2.data \
+            --hidden-import cv2.error \
+            --hidden-import cv2.misc \
+            --hidden-import cv2.utils \
+            --hidden-import numpy._core \
+            --hidden-import numpy._core.multiarray \
+            --hidden-import numpy._core.umath \
+            --hidden-import numpy.linalg \
+            --hidden-import numpy.fft \
+            --hidden-import numpy.random \
+            --exclude-module tkinter \
+            --exclude-module matplotlib \
+            --exclude-module scipy \
+            --exclude-module pytest \
+            --clean \
+            launcher.py
 
-      - name: Verify .app exists
+      - name: Inject camera permission into Info.plist
         run: |
-          if [ -d "dist/TCG卡片居中度检测.app" ]; then
-            echo "✓ .app bundle created successfully"
-            echo "  Camera permission:"
-            plutil -p "dist/TCG卡片居中度检测.app/Contents/Info.plist" | grep -i camera || echo "  (checking plist)"
-          else
-            echo "✗ .app bundle NOT found — listing dist/"
-            ls -la dist/
+          PLIST="dist/TCG卡片居中度检测.app/Contents/Info.plist"
+          if [ ! -f "$PLIST" ]; then
+            echo "ERROR: Info.plist not found at $PLIST"
+            find dist -name "*.app" -type d 2>/dev/null || ls -la dist/
             exit 1
           fi
+          /usr/libexec/PlistBuddy -c "Add :NSCameraUsageDescription string 'Camera access is required to capture card photos for centering analysis.'" "$PLIST"
+          echo "✓ Camera permission added to Info.plist"
+
+      - name: Verify .app
+        run: |
+          echo "=== Info.plist ==="
+          plutil -p "dist/TCG卡片居中度检测.app/Contents/Info.plist"
+          echo ""
+          echo "=== .app contents ==="
+          ls -la "dist/TCG卡片居中度检测.app/Contents/MacOS/"
 
       - name: Ad-hoc code sign
         run: |
