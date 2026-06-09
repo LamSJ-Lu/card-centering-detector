@@ -1,0 +1,55 @@
+name: Build macOS App
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+    # Allow manual trigger from GitHub Actions UI
+
+jobs:
+  build-macos:
+    runs-on: macos-14
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install pyinstaller opencv-python numpy pillow pyside6
+
+      - name: Build .app bundle
+        run: pyinstaller --clean card_centering.spec
+
+      - name: Verify .app exists
+        run: |
+          if [ -d "dist/TCG卡片居中度检测.app" ]; then
+            echo "✓ .app bundle created successfully"
+            echo "  Camera permission:"
+            plutil -p "dist/TCG卡片居中度检测.app/Contents/Info.plist" | grep -i camera || echo "  (checking plist)"
+          else
+            echo "✗ .app bundle NOT found — listing dist/"
+            ls -la dist/
+            exit 1
+          fi
+
+      - name: Ad-hoc code sign
+        run: |
+          codesign --force --deep --sign - "dist/TCG卡片居中度检测.app"
+          echo "✓ Ad-hoc signed"
+
+      - name: Package as zip
+        run: |
+          ditto -c -k --keepParent "dist/TCG卡片居中度检测.app" \
+            "TCG卡片居中度检测_v0.1.5_macOS.zip"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: TCG卡片居中度检测_macOS
+          path: TCG卡片居中度检测_v0.1.5_macOS.zip
+          retention-days: 90
