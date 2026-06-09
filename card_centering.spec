@@ -92,7 +92,7 @@ exe = EXE(
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
-    upx=True,
+    upx=False if sys.platform == "darwin" else True,   # UPX fails on macOS ARM64
     upx_exclude=[],
     runtime_tmpdir=None,
     console=False,
@@ -110,7 +110,7 @@ coll = COLLECT(
     a.pure,
     a.datas,
     strip=False,
-    upx=True,
+    upx=False if sys.platform == "darwin" else True,
     upx_exclude=[],
     name="TCG卡片居中度检测",
 )

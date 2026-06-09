@@ -23,7 +23,9 @@ jobs:
         run: pip install pyinstaller opencv-python numpy pillow pyside6
 
       - name: Build .app bundle
-        run: pyinstaller --clean card_centering.spec
+        run: |
+          python -m PyInstaller --clean --log-level INFO card_centering.spec
+          echo "PyInstaller exit code: $?"
 
       - name: Verify .app exists
         run: |
