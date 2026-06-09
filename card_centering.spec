@@ -129,8 +129,8 @@ if sys.platform == "darwin":
         info_plist={
             "CFBundleName": "TCG卡片居中度检测",
             "CFBundleDisplayName": "TCG Card Centering Detector",
-            "CFBundleVersion": "0.1.5",
-            "CFBundleShortVersionString": "0.1.5",
+            "CFBundleVersion": "0.1.6",
+            "CFBundleShortVersionString": "0.1.6",
             "NSHighResolutionCapable": True,
             "NSCameraUsageDescription": (
                 "Camera access is required to capture card photos "

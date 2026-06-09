@@ -49,13 +49,13 @@ if errorlevel 1 (
 :: Package as ZIP
 echo [4/4] 打包发行文件...
 powershell -NoProfile -Command ^
-    "Compress-Archive -Path 'dist/TCG卡片居中度检测/*' -DestinationPath 'TCG卡片居中度检测_v0.1.0.zip' -Force"
+    "Compress-Archive -Path 'dist/TCG卡片居中度检测/*' -DestinationPath 'TCG卡片居中度检测_v0.1.6.zip' -Force"
 
 echo.
 echo ========================================
 echo   构建完成!
 echo   输出目录: dist\TCG卡片居中度检测\
-echo   压缩包:   TCG卡片居中度检测_v0.1.0.zip
+echo   压缩包:   TCG卡片居中度检测_v0.1.6.zip
 echo ========================================
 echo.
 pause

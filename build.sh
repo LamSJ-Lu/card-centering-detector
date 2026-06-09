@@ -6,7 +6,7 @@ set -euo pipefail
 cd "$(dirname "$0")"
 
 APP_NAME="TCG卡片居中度检测"
-VERSION="0.1.5"
+VERSION="0.1.6"
 PLATFORM="$(uname -s)"
 
 echo "========================================"

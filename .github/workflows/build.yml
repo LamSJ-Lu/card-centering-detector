@@ -79,11 +79,11 @@ jobs:
       - name: Package as zip
         run: |
           ditto -c -k --keepParent "dist/TCG卡片居中度检测.app" \
-            "TCG卡片居中度检测_v0.1.5_macOS.zip"
+            "TCG卡片居中度检测_v0.1.6_macOS.zip"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: TCG卡片居中度检测_macOS
-          path: TCG卡片居中度检测_v0.1.5_macOS.zip
+          path: TCG卡片居中度检测_v0.1.6_macOS.zip
           retention-days: 90

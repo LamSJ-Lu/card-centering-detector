@@ -1491,7 +1491,7 @@ class MainWindow(QMainWindow):
     def _show_about(self):
         QMessageBox.about(
             self, "关于",
-            "📐 TCG 卡片居中度检测 v0.1.0\n\n"
+            "📐 TCG 卡片居中度检测 v0.1.6\n\n"
             "检测 TCG/球星卡印刷内容的居中度，\n"
             "支持透视校正、自动边框检测、\n"
             "手动微调和放大镜辅助精确定位。\n\n"
@@ -1512,7 +1512,7 @@ def main():
 
     app = QApplication(sys.argv)
     app.setApplicationName("TCG Card Centering Detector")
-    app.setApplicationVersion("0.1.0")
+    app.setApplicationVersion("0.1.6")
 
     # Dark theme styling.
     # On macOS the native Aqua style automatically respects the system
