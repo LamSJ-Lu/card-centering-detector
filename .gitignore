@@ -1,0 +1,32 @@
+# ── Build artifacts ──
+build/
+dist/
+*.pyz
+*.spec.bak
+
+# ── Distribution packages ──
+*.zip
+*.tar.gz
+TCG卡片居中度检测_v*/
+
+# ── Python cache ──
+__pycache__/
+*.py[cod]
+*.egg-info/
+*.egg
+
+# ── IDE / editor ──
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ── OS files ──
+.DS_Store
+Thumbs.db
+
+# ── Claude config (local only) ──
+.claude/
+
+# ── Misc junk ──
+nul

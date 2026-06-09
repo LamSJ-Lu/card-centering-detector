@@ -1,0 +1,19 @@
+[project]
+name = "card-centering-detector"
+version = "0.1.5"
+description = "TCG/球星卡内容居中度检测工具"
+requires-python = ">=3.12"
+dependencies = [
+    "opencv-python>=4.10.0",
+    "numpy>=2.0.0",
+    "pillow>=11.0.0",
+    "pyside6>=6.7.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+]
+
+[project.scripts]
+card-centering = "card_centering.main:main"
